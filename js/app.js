@@ -28,6 +28,11 @@ app.config(function($routeProvider) {
     Title: "Player Info",
     templateUrl: "html/playerInfo.html"
   });
+  $routeProvider.when("/:address/pluginlist", {
+    Title: "Plugin List",
+    templateUrl: "html/pluginlist.html",
+    Nav: true
+  });
   $routeProvider.otherwise({redirectTo: '/home'});
 });
 

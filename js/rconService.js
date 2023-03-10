@@ -15,11 +15,11 @@ function RconService() {
 
   var LastIndex = 1001;
 
-  Service.Connect = function(addr, pass) {
+  Service.Connect = function (addr, pass) {
     this.Socket = new WebSocket("ws://" + addr + "/" + pass);
     this.Address = addr;
 
-    this.Socket.onmessage = function(e) {
+    this.Socket.onmessage = function (e) {
       var data = angular.fromJson(e.data);
 
       //
@@ -29,7 +29,7 @@ function RconService() {
       if (data.Identifier > 1000) {
         var cb = Service.Callbacks[data.Identifier];
         if (cb != null) {
-          cb.scope.$apply(function() {
+          cb.scope.$apply(function () {
             cb.callback(data);
           });
         }
@@ -51,7 +51,7 @@ function RconService() {
     this.Socket.onerror = this.OnError;
   }
 
-  Service.Disconnect = function() {
+  Service.Disconnect = function () {
     if (this.Socket) {
       this.Socket.close();
       this.Socket = null;
@@ -60,7 +60,7 @@ function RconService() {
     this.Callbacks = {};
   }
 
-  Service.Command = function(msg, identifier) {
+  Service.Command = function (msg, identifier) {
     if (this.Socket === null)
       return;
 
@@ -82,7 +82,7 @@ function RconService() {
   //
   // Make a request, call this function when it returns
   //
-  Service.Request = function(msg, scope, callback) {
+  Service.Request = function (msg, scope, callback) {
     LastIndex++;
     this.Callbacks[LastIndex] = {
       scope: scope,
@@ -94,7 +94,7 @@ function RconService() {
   //
   // Returns true if websocket is connected
   //
-  Service.IsConnected = function() {
+  Service.IsConnected = function () {
     if (this.Socket == null)
       return false;
 
@@ -107,8 +107,8 @@ function RconService() {
   // Basically if not connected, call this function when we are
   // And if we are - then call it right now.
   //
-  Service.InstallService = function(scope, func) {
-    scope.$on("OnConnected", function() {
+  Service.InstallService = function (scope, func) {
+    scope.$on("OnConnected", function () {
       func();
     });
 
@@ -117,12 +117,51 @@ function RconService() {
     }
   }
 
-  Service.getPlayers = function(scope, success) {
-    this.Request("playerlist", scope, function(response) {
+  Service.getPlayers = function (scope, success) {
+    this.Request("playerlist", scope, function (response) {
       var players = JSON.parse(response.Message);
 
       if (typeof success === 'function') {
         success.call(scope, players);
+      }
+    });
+  }
+
+  Service.getPlugins = function (scope, success) {
+    this.Request("oxide.plugins", scope, function (response) {
+
+      var list = response.Message.split("\n");
+      var plugins = [];
+      for (var i = 0; i < list.length; i++) {
+        //split "" and () from list[i]
+
+        var pluginName = list[i].split("\"")[1]
+        //spilt ( ) from list[i]
+    
+        var pluginVersion = list[i].split(/[()]/);
+        var authorString = `${pluginVersion[2]}`
+        var cmdString = `${pluginVersion[4]}`
+        var cmdString2 = `${cmdString.split(" - ")[1]}`;
+        var cmdName = cmdString2.split(".cs")[0];
+        var author = authorString.split("by ")[1];
+       // pluginVersion = pluginVersion.split(")")[0];
+        //console.log(pluginName);
+        //console.log(pluginVersion);
+       // console.log(author);
+        
+          plugins.push({
+            Name: pluginName,
+            Version: pluginVersion[1],
+            Author: author,
+            CmdName: cmdName
+          });
+        
+      }
+      console.log(plugins);
+     // var plugins = JSON.parse(response.Message);
+
+      if (typeof success === 'function') {
+        success.call(scope, plugins);
       }
     });
   }

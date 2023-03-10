@@ -5,7 +5,8 @@
 			<input ng-model="FilterText" class="form-control" placeholder="Filter..">
 		</div>
 		<div class="col-xs-6">
-			<button ng-click="Refresh()" class="btn btn-default pull-right" type="button"><span class="glyphicon glyphicon-refresh"></span></button>
+			<button ng-click="Refresh()" class="btn btn-default pull-right" type="button"><span
+					class="glyphicon glyphicon-refresh"></span></button>
 		</div>
 	</div>
 
@@ -18,20 +19,22 @@
 							<th>Actions</th>
 
 							<th ng-click="Order( 'DisplayName' )" ng-class="SortClass( 'DisplayName' )">Plugin Name</th>
-							<th  ng-click="Order( 'SteamID' )" ng-class="SortClass( 'SteamID' )">Author Name</th>
-							<th  ng-click="Order( 'VoiationLevel' )" ng-class="SortClass( 'VoiationLevel' )">Version</th>
+							<th ng-click="Order( 'SteamID' )" ng-class="SortClass( 'SteamID' )">Author Name</th>
+							<th ng-click="Order( 'VoiationLevel' )" ng-class="SortClass( 'VoiationLevel' )">Version</th>
 						</tr>
 					</thead>
 					<tr ng-repeat="line in Plugins | orderBy: OrderBy | filter:FilterText" href="#/{{address}}/player/{{line.SteamID}}/">
 
 						<td>
 							<div class="btn-group">
-								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							    	<span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>
-							  	</button>
-							  	<ul class="dropdown-menu">
-								    <li>
-								    	<a href="http://www.steamcommunity.com/profiles/{{line.SteamID}}" target="_blank">
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">
+									<span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="http://www.steamcommunity.com/profiles/{{line.SteamID}}"
+											target="_blank">
 											<span class="glyphicon glyphicon-info-sign"></span>
 											Steam Profile
 										</a>
@@ -57,15 +60,15 @@
 
 
 
-						<td >
+						<td>
 							{{line.Name}}
 						</td>
 
-						<td >
+						<td>
 							{{line.Author}}
 						</td>
 
-						<td >
+						<td>
 							{{line.Version}}
 						</td>
 

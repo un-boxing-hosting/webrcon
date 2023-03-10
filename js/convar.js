@@ -1,6 +1,6 @@
-app.controller('PluginListController', PluginListController);
+app.controller('ConvarListController', ConvarListController);
 
-function PluginListController($scope, rconService, $interval) {
+function ConvarListController($scope, rconService, $interval) {
 
 	$scope.Output = [];
 	//$scope.OrderBy = '-ConnectedSeconds';

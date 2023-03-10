@@ -145,9 +145,20 @@ function RconService() {
         var cmdName = cmdString2.split(".cs")[0];
         var author = authorString.split("by ")[1];
        // pluginVersion = pluginVersion.split(")")[0];
-        //console.log(pluginName);
-        //console.log(pluginVersion);
-       // console.log(author);
+      console.log(pluginName);
+        console.log(pluginVersion);
+        console.log(author);
+        if(pluginName == undefined){
+          pluginName = list[i].split(" ");
+          console.log(pluginName +"1");
+          plugins.push({
+            Name: pluginName[3],
+            Version: pluginName[5],
+            Author: pluginName[5],
+            CmdName: pluginName[3]
+          });
+          continue;
+        }
         
           plugins.push({
             Name: pluginName,
@@ -157,6 +168,7 @@ function RconService() {
           });
         
       }
+      plugins.shift();
       console.log(plugins);
      // var plugins = JSON.parse(response.Message);
 

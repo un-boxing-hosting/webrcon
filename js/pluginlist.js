@@ -7,7 +7,7 @@ function PluginListController($scope, rconService, $interval) {
 
 	$scope.Refresh = function () {
 		rconService.getPlugins($scope, function (plugins) {
-			$scope.Players = plugins;
+			$scope.plugins = plugins;
 		})
 	}
 
@@ -26,11 +26,20 @@ function PluginListController($scope, rconService, $interval) {
 		return null;
 	}
 
-	$scope.KickPlayer = function (id) {
-		rconService.Command('kick ' + id);
+	$scope.Reload = function (id) {
+		rconService.Command('oxide.reload ' + id);
+	}
 
+	$scope.Unload = function (id) {
+		rconService.Command('oxide.unload ' + id);
 		$scope.Refresh();
 	}
+
+	$scope.Load = function (id) {
+		rconService.Command('oxide.load ' + id);
+		$scope.Refresh();
+	}
+
 
 	rconService.InstallService($scope, $scope.Refresh)
 

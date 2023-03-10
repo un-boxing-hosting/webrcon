@@ -170,7 +170,7 @@ function RconService() {
       }
       plugins.shift();
       console.log(plugins);
-     // var plugins = JSON.parse(response.Message);
+     //var plugins = JSON.parse(response.Message);
 
       if (typeof success === 'function') {
         success.call(scope, plugins);

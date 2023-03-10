@@ -38,6 +38,12 @@ function PlayerListController( $scope, rconService, $interval )
 
 		$scope.Refresh();
 	}
+	$scope.BanPlayer = function ( id )
+	{
+		rconService.Command( 'ban ' + id );
+
+		$scope.Refresh();
+	}
 
 	rconService.InstallService( $scope, $scope.Refresh )
 

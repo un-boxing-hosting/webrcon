@@ -33,6 +33,11 @@ app.config(function($routeProvider) {
     templateUrl: "html/pluginlist.html",
     Nav: true
   });
+  $routeProvider.when("/:address/banlist", {
+    Title: "Ban List",
+    templateUrl: "html/banlist.html",
+    Nav: true
+  });
   $routeProvider.when("/:address/convar", {
     Title: "ConVar List",
     templateUrl: "html/convars.html",

@@ -127,6 +127,47 @@ function RconService() {
     });
   }
 
+  Service.getBans = function (scope, success) {
+    this.Request("banlistex", scope, function (response) {
+      //split response.Message by comma and then by \n and put into array
+      var regex = /\"(.*?)\"/g;
+      var bans = response.Message.split("\n");
+      var SteamID = [];
+      var Name = [];
+      var Reason = [];
+      var i = 0;
+      //loop through bans array
+      for (var i = 0; i < bans.length; i++) {
+        //if bans[i] contains a steamid
+        if (bans[i].includes("7656")) {
+          //push steamid to steamid array
+          SteamID.push(bans[i].split(" ")[1]);
+          //match name using regex and push to name array
+          Name.push(bans[i].match(regex)[0].replace(/"/g, ''));
+          //push reason to reason array
+          Reason.push(bans[i].split("\"")[3]);
+        }
+      }
+      //create a new array
+      var bans = [];
+      console.log(bans)
+      //loop through steamid array
+      for (var i = 0; i < SteamID.length; i++) {
+        //push steamid, name, reason, expires to bans array
+
+        bans.push({
+          SteamID: SteamID[i],
+          Name: Name[i],
+          Reason: Reason[i]
+        });
+      }
+
+      if (typeof success === 'function') {
+        success.call(scope, bans);
+      }
+    });
+  }
+  
   Service.getPlugins = function (scope, success) {
     this.Request("oxide.plugins", scope, function (response) {
 
@@ -170,7 +211,6 @@ function RconService() {
       }
       plugins.shift();
       console.log(plugins);
-     //var plugins = JSON.parse(response.Message);
 
       if (typeof success === 'function') {
         success.call(scope, plugins);

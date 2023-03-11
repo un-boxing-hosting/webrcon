@@ -1,4 +1,4 @@
-<div ng-controller="PluginListController" id="PluginListController">
+<div ng-controller="BanListController" id="BanListController">
 
 	<div class="row">
 		<div class="col-xs-6">
@@ -18,12 +18,12 @@
 						<tr>
 							<th>Actions</th>
 
-							<th ng-click="Order( 'DisplayName' )" ng-class="SortClass( 'DisplayName' )">Plugin Name</th>
-							<th ng-click="Order( 'SteamID' )" ng-class="SortClass( 'SteamID' )">Author Name</th>
-							<th ng-click="Order( 'VoiationLevel' )" ng-class="SortClass( 'VoiationLevel' )">Version</th>
+							<th ng-click="Order( 'SteamID' )" ng-class="SortClass( 'SteamID' )">SteamID</th>
+							<th ng-click="Order( 'Name' )" ng-class="SortClass( 'Name' )">Name</th>
+							<th ng-click="Order( 'Reason' )" ng-class="SortClass( 'Reason' )">Reason</th>
 						</tr>
 					</thead>
-					<tr ng-repeat="line in plugins | orderBy: OrderBy | filter:FilterText"
+					<tr ng-repeat="line in bans | orderBy: OrderBy | filter:FilterText"
 						href="#/{{address}}/player/{{line.SteamID}}/">
 
 						<td>
@@ -42,17 +42,10 @@
 									</li>
 									<li class="divider"></li>
 									<li>
-										<a href ng-click="Reload(line.CmdName)">
-											<span class="glyphicon glyphicon-refresh"></span>
-											Reload
+										<a href ng-click="Unban(line.SteamID)">
+											<span class="glyphicon glyphicon-exclamation-sign"></span>
+											Unban
 										</a>
-										<a href ng-click="Unload(line.CmdName)">
-											<span class="glyphicon glyphicon-trash"></span>
-											Unload
-										</a>
-										<a href ng-click="Load(line.SteamID)">
-											<span class="glyphicon glyphicon-download-alt"></span>
-											Load
 										</a>
 									</li>
 								</ul>
@@ -60,15 +53,15 @@
 						</td>
 
 						<td>
+							{{line.SteamID}}
+						</td>
+
+						<td>
 							{{line.Name}}
 						</td>
 
 						<td>
-							{{line.Author}}
-						</td>
-
-						<td>
-							{{line.Version}}
+							{{line.Reason}}
 						</td>
 
 						<md-divider></md-divider>

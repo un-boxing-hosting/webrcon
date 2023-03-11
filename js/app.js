@@ -3,7 +3,12 @@ var app = angular.module('RconApp', ['ngRoute', 'nvd3']);
 app.service('rconService', [RconService]);
 
 app.config(function($routeProvider) {
-  $routeProvider.when("/home", {Title: "Home"});
+  $routeProvider.when("/home",
+  {
+    Title: "Server",
+    templateUrl: "html/serverInfo.html",
+    Nav: false
+  });
   $routeProvider.when("/:address/info", {
     Title: "Server",
     templateUrl: "html/serverInfo.html",

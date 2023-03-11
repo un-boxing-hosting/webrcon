@@ -3,7 +3,7 @@ app.controller('PluginListController', PluginListController);
 function PluginListController($scope, rconService, $interval) {
 
 	$scope.Output = [];
-	//$scope.OrderBy = '-ConnectedSeconds';
+	$scope.OrderBy = 'PluginName';
 
 	$scope.Refresh = function () {
 		rconService.getPlugins($scope, function (plugins) {

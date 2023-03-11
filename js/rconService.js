@@ -167,7 +167,7 @@ function RconService() {
       }
     });
   }
-  
+
   Service.getPlugins = function (scope, success) {
     this.Request("oxide.plugins", scope, function (response) {
 
@@ -178,20 +178,20 @@ function RconService() {
 
         var pluginName = list[i].split("\"")[1]
         //spilt ( ) from list[i]
-    
+
         var pluginVersion = list[i].split(/[()]/);
         var authorString = `${pluginVersion[2]}`
         var cmdString = `${pluginVersion[4]}`
         var cmdString2 = `${cmdString.split(" - ")[1]}`;
         var cmdName = cmdString2.split(".cs")[0];
         var author = authorString.split("by ")[1];
-       // pluginVersion = pluginVersion.split(")")[0];
-      console.log(pluginName);
-        console.log(pluginVersion);
-        console.log(author);
-        if(pluginName == undefined){
+        // pluginVersion = pluginVersion.split(")")[0];
+        // console.log(pluginName);
+        // console.log(pluginVersion);
+        // console.log(author);
+        if (pluginName == undefined) {
           pluginName = list[i].split(" ");
-          console.log(pluginName +"1");
+          // console.log(pluginName +"1");
           plugins.push({
             Name: pluginName[3],
             Version: pluginName[5],
@@ -200,17 +200,17 @@ function RconService() {
           });
           continue;
         }
-        
-          plugins.push({
-            Name: pluginName,
-            Version: pluginVersion[1],
-            Author: author,
-            CmdName: cmdName
-          });
-        
+
+        plugins.push({
+          Name: pluginName,
+          Version: pluginVersion[1],
+          Author: author,
+          CmdName: cmdName
+        });
+
       }
       plugins.shift();
-      console.log(plugins);
+      //console.log(plugins);
 
       if (typeof success === 'function') {
         success.call(scope, plugins);

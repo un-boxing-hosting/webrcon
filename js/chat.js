@@ -1,48 +1,42 @@
+app.controller('ChatController', ChatController);
 
-app.controller( 'ChatController', ChatController );
-
-function ChatController( $scope, rconService, $timeout )
-{
+function ChatController($scope, rconService, $timeout) {
 	$scope.Output = [];
 
-	$scope.SubmitCommand = function ()
-	{
-		rconService.Command( "say " + $scope.Command, 1 );
+	$scope.SubmitCommand = function () {
+		rconService.Command("say " + $scope.Command, 1);
 		$scope.Command = "";
 	}
 
-	$scope.$on( "OnMessage", function ( event, msg )
-	{
-		if ( msg.Type !== "Chat" ) return;
+	$scope.$on("OnMessage", function (event, msg) {
+		console.log(msg);
+		if (msg.Type !== "Chat") return;
 
-		$scope.OnMessage( JSON.parse( msg.Message ) );
+		$scope.OnMessage(JSON.parse(msg.Message));
 	});
 
-	$scope.OnMessage = function( msg )
-	{
+	$scope.OnMessage = function (msg) {
 		msg.Message = stripHtml(msg.Message);
 		msg.Username = stripHtml(msg.Username);
-		
-		$scope.Output.push( msg );
-		
-		if($scope.isOnBottom()) {
+
+		$scope.Output.push(msg);
+
+		if ($scope.isOnBottom()) {
 			$scope.ScrollToBottom();
 		}
 	}
 
-	$scope.ScrollToBottom = function()
-	{
-		var element = $( "#ChatController .Output" );
+	$scope.ScrollToBottom = function () {
+		var element = $("#ChatController .Output");
 
-		$timeout( function() {
-			element.scrollTop( element.prop('scrollHeight') );
-		}, 50 );
+		$timeout(function () {
+			element.scrollTop(element.prop('scrollHeight'));
+		}, 50);
 	}
 
-	$scope.isOnBottom = function()
-	{
+	$scope.isOnBottom = function () {
 		// get jquery element
-		var element = $( "#ChatController .Output" );
+		var element = $("#ChatController .Output");
 
 		// height of the element
 		var height = element.height();
@@ -53,7 +47,7 @@ function ChatController( $scope, rconService, $timeout )
 		//  full height of the element
 		var scrollHeight = element.prop('scrollHeight');
 
-		if((scrollTop + height) > (scrollHeight - 10)) {
+		if ((scrollTop + height) > (scrollHeight - 10)) {
 			return true;
 		}
 
@@ -64,24 +58,21 @@ function ChatController( $scope, rconService, $timeout )
 	// Calls console.tail - which returns the last 256 entries from the console.
 	// This is then added to the console
 	//
-	$scope.GetHistory = function ()
-	{
-		rconService.Request( "chat.tail 512", $scope, function ( msg )
-		{
-			var messages = JSON.parse( msg.Message );
-
-			messages.forEach( function ( message ) {
-			 $scope.OnMessage( message ); 
+	$scope.GetHistory = function () {
+		rconService.Request("chat.tail 512", $scope, function (msg) {
+			var messages = JSON.parse(msg.Message);
+			console.log(msg);
+			messages.forEach(function (message) {
+				$scope.OnMessage(message);
 			});
 
 			$scope.ScrollToBottom();
-		} );
+		});
 	}
 
-	rconService.InstallService( $scope, $scope.GetHistory )
+	rconService.InstallService($scope, $scope.GetHistory)
 }
 
-function stripHtml( text )
-{
-	return text ? String(text).replace( /<[^>]+>/gm, '' ) : '';
+function stripHtml(text) {
+	return text ? String(text).replace(/<[^>]+>/gm, '') : '';
 }

@@ -2,9 +2,8 @@ var app = angular.module('RconApp', ['ngRoute', 'nvd3']);
 
 app.service('rconService', [RconService]);
 
-app.config(function($routeProvider) {
-  $routeProvider.when("/home",
-  {
+app.config(function ($routeProvider) {
+  $routeProvider.when("/home", {
     Title: "Server",
     templateUrl: "html/serverInfo.html",
     Nav: false
@@ -24,6 +23,11 @@ app.config(function($routeProvider) {
     templateUrl: "html/chat.html",
     Nav: true
   });
+    //$routeProvider.when("/:address/teamchat", {
+   // Title: "Team Chat",
+   // templateUrl: "html/teamchat.html",
+   // Nav: true
+ // });
   $routeProvider.when("/:address/playerlist", {
     Title: "Player List",
     templateUrl: "html/playerlist.html",
@@ -48,7 +52,9 @@ app.config(function($routeProvider) {
     templateUrl: "html/convars.html",
     Nav: true
   });
-  $routeProvider.otherwise({redirectTo: '/home'});
+  $routeProvider.otherwise({
+    redirectTo: '/home'
+  });
 });
 
 app.controller('RconController', RconController);
@@ -56,52 +62,52 @@ app.controller('RconController', RconController);
 function RconController($scope, $rootScope, rconService, $timeout, $route) {
   $scope.$route = $route;
 
-  $scope.pages = $.map($route.routes, function(value, index) {
+  $scope.pages = $.map($route.routes, function (value, index) {
     if (value.Nav) {
       return [value];
     }
   });
 
-  $scope.OpenLeftMenu = function() {
+  $scope.OpenLeftMenu = function () {
     $mdSidenav('left').toggle();
   };
 
-  $scope.IsConnected = function() {
+  $scope.IsConnected = function () {
     return rconService.IsConnected();
   }
 
-  $rootScope.Nav = function(url) {
+  $rootScope.Nav = function (url) {
     return url.replace(":address", rconService.Address);
   }
 
-  $rootScope.$on('$stateChangeStart', function(next, current) {
+  $rootScope.$on('$stateChangeStart', function (next, current) {
     console.log(next);
   });
 
-  rconService.OnOpen = function() {
+  rconService.OnOpen = function () {
     $scope.Connected = true;
     $scope.$broadcast("OnConnected");
     $scope.$digest();
     $scope.address = rconService.Address;
   }
 
-  rconService.OnClose = function(ev) {
+  rconService.OnClose = function (ev) {
     $scope.$broadcast("OnDisconnected", ev);
     $scope.$digest();
   }
 
-  rconService.OnError = function(ev) {
+  rconService.OnError = function (ev) {
     $scope.$broadcast("OnConnectionError", ev);
     $scope.$digest();
   }
 
-  rconService.OnMessage = function(msg) {
-    $scope.$apply(function() {
+  rconService.OnMessage = function (msg) {
+    $scope.$apply(function () {
       $scope.$broadcast("OnMessage", msg);
     });
   }
 
-  $scope.Disconnect = function() {
+  $scope.Disconnect = function () {
     if (confirm('Do you really want to disconnect?')) {
       rconService.Disconnect();
       $scope.Connected = false;
@@ -114,7 +120,7 @@ function RconController($scope, $rootScope, rconService, $timeout, $route) {
 app.filter('SecondsToDuration', [SecondsToDuration]);
 
 function SecondsToDuration() {
-  return function(input) {
+  return function (input) {
     input = parseInt(input);
 
     var out = "";

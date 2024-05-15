@@ -1,5 +1,7 @@
 <div ng-controller="ConsoleController" id="ConsoleController">
+<div class="row">
 
+	</div>
     <div style="height: 600px" class="Output scrollable">
     	<div ng-repeat="line in Output" ng-class="line.Class">{{line.Message}}</div>
     </div>
@@ -7,5 +9,9 @@
 	<form ng-submit="SubmitCommand()">
 		<input type="text" class="form-control" ng-model="Command" ng-keyup="KeyUp($event)" />
 	</form>
+
+	<div hidden="true" class="col-xs-6">
+		<button ng-click="SoftWipe()" class="btn btn-default pull-right"  type="button"> SoftWipe</button>
+	</div>
 
 </div>

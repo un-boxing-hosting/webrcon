@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "http-server": "^0.9.0"
+  },
+  "dependencies": {
+    "rcon": "^1.1.0"
   }
 }

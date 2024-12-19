@@ -169,11 +169,15 @@ function RconService() {
   }
 
   Service.getPlugins = function (scope, success) {
-    this.Request("oxide.plugins", scope, function (response) {
-
-      var list = response.Message.split("\n");
-      var plugins = [];
-      for (var i = 0; i < list.length; i++) {
+    this.Request("c.plugins -json", scope, function (response) {
+      console.log(response.Message);
+      var list = JSON.parse(response.Message);
+      //var list = response.Message.split("\n");
+      console.log(list);
+      var plugins = list.Plugins[1].Plugins;
+      console.log(plugins);
+      //var plugins = [];
+      /* for (var i = 0; i < list.length; i++) {
         //split "" and () from list[i]
 
         var pluginName = list[i].split("\"")[1]
@@ -200,16 +204,16 @@ function RconService() {
           });
           continue;
         }
-
-        plugins.push({
+        */
+        /* plugins.push({
           Name: pluginName,
           Version: pluginVersion[1],
           Author: author,
           CmdName: cmdName
-        });
+        }); */
 
-      }
-      plugins.shift();
+      //}
+      //plugins.shift(); 
       //console.log(plugins);
 
       if (typeof success === 'function') {

@@ -74,6 +74,7 @@ function ConsoleController($scope, rconService, $timeout) {
 			case 'Log':
 			case 'Error':
 			case 'Warning':
+				//console.log(msg);
 				$scope.addOutput(msg);
 				break;
 
@@ -122,7 +123,9 @@ function ConsoleController($scope, rconService, $timeout) {
 	//
 	$scope.GetHistory = function () {
 		rconService.Request("console.tail 128", $scope, function (msg) {
+			//console.log(msg);
 			var messages = JSON.parse(msg.Message);
+			//console.log(messages);
 
 			messages.forEach(function (msg) {
 				$scope.OnMessage(msg);
